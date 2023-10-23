@@ -13,6 +13,7 @@ public abstract class EntityBehavior {
     public void onAttach() {
     }
 
+
     /**
      * Called when this EntityBehavior gets detached from a FEntity.
      */
