@@ -24,13 +24,7 @@
 package com.crabcode.factory.data;
 
 
-import com.crabcode.factory.reflect.exception.UncheckedClassNotFoundException;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

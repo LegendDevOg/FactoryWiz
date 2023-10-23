@@ -5,16 +5,25 @@ import com.crabcode.factory.data.DataManager;
 import com.crabcode.factory.data.FileDataManager;
 import com.crabcode.factory.data.MySQLDataManager;
 import com.crabcode.factory.data.SQLiteDataManager;
+import com.crabcode.factory.entities.FakeEntityAPI;
+import com.crabcode.factory.entities.IFakeEntity;
+import com.crabcode.factory.entities.entity.ArmorStandRenderer;
 import com.crabcode.factory.util.Logger;
 import com.crabcode.factory.util.Scheduler;
 import com.crabcode.factory.util.TimeoutMetadata;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.UUID;
 
 import static com.crabcode.factory.reflect.Reflection.setFieldValue;
 
@@ -64,8 +73,19 @@ public class FactoryWiz extends JavaPlugin implements Listener {
             dataManager.initialize();
         }
 
+        FakeEntityAPI.init();
     }
 
+    @EventHandler
+    // This is called directly after the PlayerConnection
+    // is set as the packetListener for the player
+    public void onJoin(PlayerInteractEvent event) {
+
+        IFakeEntity ife =  FakeEntityAPI.get().spawn(UUID.randomUUID(), event.getPlayer().getLocation());
+        ArmorStandRenderer ars = ife.setRenderer(ArmorStandRenderer.class);
+        ars.setSmall(true);
+
+    }
 
     /**
      * Get the directory in which the factory machines are stored.

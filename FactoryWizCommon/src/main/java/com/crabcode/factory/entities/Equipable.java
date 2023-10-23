@@ -16,7 +16,6 @@ public interface Equipable {
 
     public ItemStack getMainHand();
 
-    boolean[] getEquipmentUpdates();
 
     public Equipable setHelmet(ItemStack item);
 
@@ -30,10 +29,6 @@ public interface Equipable {
 
     public Equipable setOffHand(ItemStack item);
 
-    public default Equipable updateSlot(EquipSlot slot) {
-        getEquipmentUpdates()[slot.ordinal()] = true;
-        return this;
-    }
 
     public enum EquipSlot {
         MAINHAND, OFFHAND, BOOTS, LEGGINGS, CHESTPLATE, HELMET;

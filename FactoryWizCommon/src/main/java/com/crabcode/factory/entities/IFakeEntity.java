@@ -27,6 +27,8 @@ public interface IFakeEntity{
 
     public float getPitch();
 
+    public double getYHeadRot();
+
     public boolean isOnGround();
 
     public UUID getUUID();

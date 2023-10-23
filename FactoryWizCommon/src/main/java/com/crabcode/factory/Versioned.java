@@ -25,6 +25,7 @@ package com.crabcode.factory;
 
 
 import com.crabcode.factory.reflect.exception.UncheckedClassNotFoundException;
+import com.crabcode.factory.util.Logger;
 import com.crabcode.factory.util.MinecraftVersion;
 
 import static com.crabcode.factory.reflect.Reflection.findClass;
@@ -56,6 +57,7 @@ public interface Versioned {
         Class<T> found;
         try {
             String name = clazz.getName();
+            //Logger.severe("t" + VERSION_PREFIX + name.substring(name.lastIndexOf('.')));
             found = findClass(VERSION_PREFIX + name.substring(name.lastIndexOf('.')));
         } catch (UncheckedClassNotFoundException e) {
             throw new UnsupportedOperationException("Class " + clazz +
