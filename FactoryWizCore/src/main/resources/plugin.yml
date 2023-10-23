@@ -1,0 +1,17 @@
+name: ${project.name}
+version: ${project.version}
+main: com.crabcode.factory.FactoryWiz
+description: ${project.description}
+
+author: CrabCode
+api-version: '1.13'
+
+# The commands your plugin provides.
+commands:
+  examplecommand:
+    description: Description of your command.
+    usage: /examplecommand <arg1> [arg2]
+  anothercommand:
+    description: Another command description.
+    usage: /anothercommand
+
