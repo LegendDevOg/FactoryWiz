@@ -17,7 +17,7 @@ public interface Equipable {
     public ItemStack getMainHand();
 
 
-    public Equipable setHelmet(ItemStack item);
+    public void setHelmet(ItemStack item);
 
     public Equipable setChestplate(ItemStack item);
 

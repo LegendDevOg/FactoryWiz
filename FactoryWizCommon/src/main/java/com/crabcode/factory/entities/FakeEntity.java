@@ -4,6 +4,7 @@ import com.crabcode.factory.Versioned;
 import com.crabcode.factory.util.Logger;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 

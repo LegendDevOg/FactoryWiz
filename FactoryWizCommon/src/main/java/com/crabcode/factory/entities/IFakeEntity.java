@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public interface IFakeEntity{
+public interface IFakeEntity {
 
     public Location getLocation();
 

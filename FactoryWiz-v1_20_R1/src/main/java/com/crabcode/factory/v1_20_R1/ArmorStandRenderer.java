@@ -25,13 +25,13 @@ public class ArmorStandRenderer extends LivingEntityRenderer implements com.crab
     private static final Vector3f DEFAULT_LEFT_LEG_POSE = new Vector3f(-1.0f, 0.0f, -1.0f);
     private static final Vector3f DEFAULT_RIGHT_LEG_POSE = new Vector3f(1.0f, 0.0f, 1.0f);
 
-    private static final EntityDataAccessor<Byte> MASK = NMSDataWatcherObject.get(ArmorStand.class, "b");
-    private static final EntityDataAccessor<Vector3f> HEAD_POSE = NMSDataWatcherObject.get(ArmorStand.class, "c");
-    private static final EntityDataAccessor<Vector3f> BODY_POSE = NMSDataWatcherObject.get(ArmorStand.class, "d");
-    private static final EntityDataAccessor<Vector3f> LEFT_ARM_POSE = NMSDataWatcherObject.get(ArmorStand.class, "e");
-    private static final EntityDataAccessor<Vector3f> RIGHT_ARM_POSE = NMSDataWatcherObject.get(ArmorStand.class, "f");
-    private static final EntityDataAccessor<Vector3f> LEFT_LEG_POSE = NMSDataWatcherObject.get(ArmorStand.class, "g");
-    private static final EntityDataAccessor<Vector3f> RIGHT_LEG_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bs");
+    private static final EntityDataAccessor<Byte> MASK = NMSDataWatcherObject.get(ArmorStand.class, "bC");
+    private static final EntityDataAccessor<Vector3f> HEAD_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bD");
+    private static final EntityDataAccessor<Vector3f> BODY_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bE");
+    private static final EntityDataAccessor<Vector3f> LEFT_ARM_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bF");
+    private static final EntityDataAccessor<Vector3f> RIGHT_ARM_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bG");
+    private static final EntityDataAccessor<Vector3f> LEFT_LEG_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bH");
+    private static final EntityDataAccessor<Vector3f> RIGHT_LEG_POSE = NMSDataWatcherObject.get(ArmorStand.class, "bI");
 
     private static final byte SMALL_FLAG = 0x01;
     private static final byte ARMS_FLAG = 0x04;
@@ -61,11 +61,12 @@ public class ArmorStandRenderer extends LivingEntityRenderer implements com.crab
         this.registerMetadata(RIGHT_ARM_POSE, this.rightArmPose);
         this.registerMetadata(LEFT_LEG_POSE, this.leftLegPose);
         this.registerMetadata(RIGHT_LEG_POSE, this.rightLegPose);
+
     }
 
     // Equipment
     private boolean[] equipmentUpdates = new boolean[6];
-    private ItemStack[] equipment = new ItemStack[6];
+    private ItemStack[] equipment = new ItemStack[7];
 
     @Override
     public void serialize(DataOut out) {
@@ -163,6 +164,7 @@ public class ArmorStandRenderer extends LivingEntityRenderer implements com.crab
             this.setOffHand(ItemBridge.deserialize(data));
         }
     }
+
 
     @Override
     public com.crabcode.factory.entities.entity.ArmorStandRenderer setSmall(boolean small) {
@@ -292,6 +294,7 @@ public class ArmorStandRenderer extends LivingEntityRenderer implements com.crab
         return new Vector(this.bodyPose.x(), this.bodyPose.y(), this.bodyPose.z());
     }
 
+
     @Override
     public Vector getLeftArmRotation() {
         return new Vector(this.leftArmPose.x(), this.leftArmPose.y(), this.leftArmPose.z());
@@ -382,10 +385,9 @@ public class ArmorStandRenderer extends LivingEntityRenderer implements com.crab
 
 
     @Override
-    public Equipable setHelmet(ItemStack item) {
+    public void setHelmet(ItemStack item) {
         this.equipment[EquipSlot.HELMET.ordinal()] = item;
         this.equipmentUpdates[EquipSlot.HELMET.ordinal()] = true;
-        return this;
     }
 
     @Override

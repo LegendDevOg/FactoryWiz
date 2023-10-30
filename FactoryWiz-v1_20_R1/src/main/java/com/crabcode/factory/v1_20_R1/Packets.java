@@ -3,22 +3,36 @@ package com.crabcode.factory.v1_20_R1;
 import com.crabcode.factory.entities.Equipable;
 import com.crabcode.factory.entities.IFakeEntity;
 import com.crabcode.factory.util.InventoryUtil;
+import com.crabcode.factory.util.Logger;
 import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.md_5.bungee.chat.ComponentSerializer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.phys.Vec3;
+import org.bukkit.GameMode;
+import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 
 public class Packets {
 
+    private static Entity a;
     public static ClientboundMoveEntityPacket.Pos getMove(IFakeEntity entity, Vector oldS, Vector newS, boolean onGround) {
         return new ClientboundMoveEntityPacket.Pos(entity.getEntityID(),
                 (short) (((newS.getX() * 32) - (oldS.getX() * 32)) * 128),
@@ -47,23 +61,28 @@ public class Packets {
 
     public static ClientboundRotateHeadPacket getHeadLook(IFakeEntity entity, float yaw) {
         ByteBuf byteBuf = Unpooled.buffer();
-        byteBuf.setByte(0, entity.getEntityID());
+        byteBuf.setInt(0, entity.getEntityID());
         byteBuf.setByte(1, (byte) (yaw * 256.0F / 360.0F));
         return new ClientboundRotateHeadPacket(new FriendlyByteBuf(byteBuf));
 
     }
 
     public static ClientboundTeleportEntityPacket getTeleport(IFakeEntity entity) {
-        ByteBuf byteBuf = Unpooled.buffer();
-        byteBuf.setByte(0, entity.getEntityID());
-        byteBuf.setDouble(1, entity.getX());
-        byteBuf.setDouble(2, entity.getY());
-        byteBuf.setDouble(3, entity.getZ());
-        byteBuf.setByte(4, (byte) entity.getYaw());
-        byteBuf.setByte(5, (byte) entity.getPitch());
-        byteBuf.setBoolean(6, entity.isOnGround());
 
-        return new ClientboundTeleportEntityPacket(new FriendlyByteBuf(byteBuf));
+        ByteBuf byteBuf = Unpooled.buffer();
+
+
+        FriendlyByteBuf f = new FriendlyByteBuf(byteBuf);
+
+        f.writeVarInt(entity.getEntityID());
+        f.writeDouble(entity.getX());
+        f.writeDouble(entity.getY());
+        f.writeDouble(entity.getZ());
+        f.writeByte((byte) entity.getYaw());
+        f.writeByte((byte) entity.getPitch());
+        f.writeBoolean(entity.isOnGround());
+
+        return new ClientboundTeleportEntityPacket(f);
     }
 
     public static ClientboundSetEquipmentPacket getEquipment(IFakeEntity entity, ItemStack[] equipment) {
@@ -211,6 +230,7 @@ public class Packets {
         }
 
     }
+    */
 
     private static class Teleport {
         private static Field ENTITY_ID;
@@ -276,6 +296,8 @@ public class Packets {
         }
 
     }
+    /*
+
 
     private static class HeadLook {
         private static Field ENTITY_ID;

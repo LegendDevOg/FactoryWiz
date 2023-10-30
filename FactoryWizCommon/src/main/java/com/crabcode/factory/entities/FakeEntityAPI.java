@@ -3,10 +3,9 @@ package com.crabcode.factory.entities;
 import com.crabcode.factory.reflect.FieldMatcher;
 import com.crabcode.factory.util.Logger;
 import com.crabcode.factory.util.Scheduler;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,10 +14,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,7 +38,7 @@ public class FakeEntityAPI {
     private FakeEntity[] snapshot = EMPTY_ENTITY_ARRAY;
     private final Queue<FakeEntity> toSpawn = new ConcurrentLinkedQueue<>();
     private final Queue<FakeEntity> toRemove = new ConcurrentLinkedQueue<>();
-    private final Int2ObjectMap<FakeEntity> entities = new Int2ObjectOpenHashMap<>();
+    private final Map<Integer, FakeEntity> entities = new HashMap<>();
 
     private final Object actionLock = new Object();
     private final Queue<Runnable> actionQueue = new ConcurrentLinkedQueue<>();

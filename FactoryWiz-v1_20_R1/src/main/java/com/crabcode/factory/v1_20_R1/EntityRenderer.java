@@ -32,12 +32,12 @@ public abstract class EntityRenderer implements com.crabcode.factory.entities.En
     private static Field UPDATE_FIELD;
     private static Field MAP_FIELD;
 
-    private static final EntityDataAccessor<Byte> MASK = NMSDataWatcherObject.get(Entity.class, "W");
-    private static final EntityDataAccessor<Integer> AIR_TICKS = NMSDataWatcherObject.get(Entity.class, "AIR_TICKS");
-    private static final EntityDataAccessor<Optional<Component>> CUSTOM_NAME = NMSDataWatcherObject.get(Entity.class, "az");
-    private static final EntityDataAccessor<Boolean> IS_CUSTOM_NAME_VISIBLE = NMSDataWatcherObject.get(Entity.class, "aA");
-    private static final EntityDataAccessor<Boolean> IS_SILENT = NMSDataWatcherObject.get(Entity.class, "aB");
-    private static final EntityDataAccessor<Boolean> NO_GRAVITY = NMSDataWatcherObject.get(Entity.class, "aC");
+    private static final EntityDataAccessor<Byte> MASK = NMSDataWatcherObject.get(Entity.class, "an");
+    private static final EntityDataAccessor<Integer> AIR_TICKS = NMSDataWatcherObject.get(Entity.class, "aT");
+    private static final EntityDataAccessor<Optional<Component>> CUSTOM_NAME = NMSDataWatcherObject.get(Entity.class, "aU");
+    private static final EntityDataAccessor<Boolean> IS_CUSTOM_NAME_VISIBLE = NMSDataWatcherObject.get(Entity.class, "aV");
+    private static final EntityDataAccessor<Boolean> IS_SILENT = NMSDataWatcherObject.get(Entity.class, "aW");
+    private static final EntityDataAccessor<Boolean> NO_GRAVITY = NMSDataWatcherObject.get(Entity.class, "aX");
 
     private static final byte ON_FIRE_FLAG = 0x01;
     private static final byte CROUCH_FLAG = 0x02;
@@ -52,7 +52,7 @@ public abstract class EntityRenderer implements com.crabcode.factory.entities.En
     static {
         Class<?> clazz = SynchedEntityData.class;
         for (Method m : clazz.getDeclaredMethods()) {
-            if (m.getName().equalsIgnoreCase("b") && m.getReturnType() != null && m.getReturnType().getSimpleName().toLowerCase().contains("item")
+            if (m.getName().equalsIgnoreCase("c") && m.getReturnType() != null && m.getReturnType().getSimpleName().toLowerCase().contains("item")
                     && m.getParameterCount() == 1) {
                 m.setAccessible(true);
                 GET_DATAWATCHER_OBJECT = m;
@@ -65,13 +65,15 @@ public abstract class EntityRenderer implements com.crabcode.factory.entities.En
                 UPDATE_FIELD = f;
                 continue;
             }
-            if (f.getName().equalsIgnoreCase("entries")) {
+            if (f.getName().equalsIgnoreCase("e")) {
                 f.setAccessible(true);
                 MAP_FIELD = f;
                 continue;
             }
         }
     }
+
+
 
     private IFakeEntity fakeEntity;
 
@@ -112,6 +114,7 @@ public abstract class EntityRenderer implements com.crabcode.factory.entities.En
     protected Set<Integer> mounts = new HashSet<>();
 
     public EntityRenderer() {
+
         this.registerMetadata(MASK, mask);
         this.registerMetadata(AIR_TICKS, airTime);
         this.registerMetadata(IS_CUSTOM_NAME_VISIBLE, this.customNameVisible);
@@ -250,10 +253,10 @@ public abstract class EntityRenderer implements com.crabcode.factory.entities.En
             if (relativeMove && rotationChange) {
                 if (!this.forceTeleportPacket) {
                     packets.add(Packets.getMoveAndLook(this.fakeEntity, this.lastLocale, this.fakeEntity.getSpot(), this.fakeEntity.getYaw(), this.fakeEntity.getPitch(), this.fakeEntity.isOnGround()));
-                    packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
+                    //packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
                 } else {
                     packets.add(Packets.getTeleport(this.fakeEntity));
-                    packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
+                   // packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
                 }
             } else if (relativeMove && !rotationChange) {
                 if (!this.forceTeleportPacket) {
@@ -263,12 +266,12 @@ public abstract class EntityRenderer implements com.crabcode.factory.entities.En
                 }
             } else {
                 packets.add(Packets.getTeleport(this.fakeEntity));
-                packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
+                //packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
             }
         } else {
             if (rotationChange) {
                 packets.add(Packets.getLook(this.fakeEntity, this.fakeEntity.getYaw(), this.fakeEntity.getPitch(), this.fakeEntity.isOnGround()));
-                packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
+               // packets.add(Packets.getHeadLook(this.fakeEntity, this.fakeEntity.getYaw()));
             }
         }
         /*

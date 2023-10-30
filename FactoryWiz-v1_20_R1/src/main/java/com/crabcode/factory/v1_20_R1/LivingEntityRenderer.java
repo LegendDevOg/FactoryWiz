@@ -15,11 +15,11 @@ import java.util.List;
 
 public abstract class LivingEntityRenderer extends EntityRenderer implements com.crabcode.factory.entities.entity.LivingEntityRenderer {
 
-    private static final EntityDataAccessor<Byte> MASK = NMSDataWatcherObject.get(LivingEntity.class, "ar");
-    private static final EntityDataAccessor<Float> HEALTH = NMSDataWatcherObject.get(LivingEntity.class, "HEALTH");
-    private static final EntityDataAccessor<Integer> POTION_COLOR = NMSDataWatcherObject.get(LivingEntity.class, "e");
-    private static final EntityDataAccessor<Boolean> POTION_AMBIENT = NMSDataWatcherObject.get(LivingEntity.class, "f");
-    private static final EntityDataAccessor<Integer> ARROW_COUNT = NMSDataWatcherObject.get(LivingEntity.class, "g");
+    private static final EntityDataAccessor<Byte> MASK = NMSDataWatcherObject.get(LivingEntity.class, "u");
+    private static final EntityDataAccessor<Float> HEALTH = NMSDataWatcherObject.get(LivingEntity.class, "bI");
+    private static final EntityDataAccessor<Integer> POTION_COLOR = NMSDataWatcherObject.get(LivingEntity.class, "bJ");
+    private static final EntityDataAccessor<Boolean> POTION_AMBIENT = NMSDataWatcherObject.get(LivingEntity.class, "bK");
+    private static final EntityDataAccessor<Integer> ARROW_COUNT = NMSDataWatcherObject.get(LivingEntity.class, "bL");
 
     private static final byte HAND_ACTIVE_FLAG = 0x01;
     private static final byte MAIN_HAND_FLAG = 0x02;
@@ -38,6 +38,7 @@ public abstract class LivingEntityRenderer extends EntityRenderer implements com
 
     public LivingEntityRenderer() {
         super();
+
         this.registerMetadata(MASK, mask);
         this.registerMetadata(HEALTH, health);
         this.registerMetadata(POTION_COLOR, this.potionEffectColor);
@@ -171,7 +172,7 @@ public abstract class LivingEntityRenderer extends EntityRenderer implements com
         ((CraftPlayer) player).getHandle().connection.send(Packets.getObjectSpawn(this.getAttached(), this.getType()));
         if (this instanceof Equipable) {
             ItemStack item = null;
-            ItemStack[] equipment = new ItemStack[6];
+            ItemStack[] equipment = new ItemStack[7];
 
             if ((item = ((Equipable) this).getHelmet()) != null) {
                 equipment[Equipable.EquipSlot.HELMET.ordinal()] = item;
